@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex">
+  <title>Regresando a Cuentas Studio</title>
+  <link rel="stylesheet" href="../estilos.css">
+</head>
+<body>
+  <main>
+    <article>
+      <p class="marca">Cuentas Studio</p>
+      <h1>Regresando a Cuentas Studio…</h1>
+      <p>Esta página sólo pasa la respuesta de TikTok a Cuentas Studio, que corre en la computadora del creador del canal. No guarda nada.</p>
+      <p class="nota">Si no avanza sola, <a id="continuar" href="http://127.0.0.1:5173/conexiones">continúa a Cuentas Studio</a>.</p>
+    </article>
+  </main>
+  <script>
+    (function () {
+      // Studio pone su puerto al principio de `state` (por ejemplo, «5173.…»). El destino siempre es este mismo equipo.
+      var query = new URLSearchParams(window.location.search)
+      var match = /^(\d{2,5})\./.exec(query.get('state') || '')
+      var port = match && Number(match[1]) <= 65535 ? match[1] : '5173'
+      var target = 'http://127.0.0.1:' + port + '/api/oauth/tiktok/callback/' + window.location.search
+      document.getElementById('continuar').href = target
+      // `replace` evita que la respuesta de TikTok se quede en el historial.
+      window.location.replace(target)
+    })()
+  </script>
+</body>
+</html>
